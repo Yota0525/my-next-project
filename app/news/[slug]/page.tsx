@@ -3,15 +3,23 @@ import { getNewsDetail } from "@/app/_libs/microcms";
 import Article from "@/app/_components/Article";
 import ButtonLink from "@/app/_components/ButtonLink";
 import styles from "./page.module.css";
+import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
 type Props = {
     params: {
         slug: string;
     };
+
+    SearchParams: {
+        dk?: string;
+    };
 };
 
-export default async function Page({ params }: Props) {
-    const data = await getNewsDetail(params.slug).catch(notFound);
+
+export default async function Page({ params, searchParams }: Props) {
+    const data = await getNewsDetail(params.slug,{
+        draftKey:searchParams.dk,
+    }).catch(notFound);
 
     return (
         <>
